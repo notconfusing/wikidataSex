@@ -117,7 +117,7 @@ def getVIAFOpinionFromXML(marcxmlurl):
     try:
         marc_xml_string = urllib2.urlopen(marcxmlurl).read()
         root = ET.fromstring(marc_xml_string)
-    except (ET.ParseError, urllib2.HTTPError, urllib2.URLError) as e:
+    except:
         raise noVIAFOpinion
     ET.register_namespace('http://www.loc.gov/MARC21/slim','')
     for child in root:
@@ -152,14 +152,13 @@ def getlccnOpinion(viafnum):
         rdfgraph=rdflib.Graph()
         try:
             rdfgraph.load(xmlurl)
-        except (xml.sax._exceptions.SAXParseException, urllib2.HTTPError) as e:
+        except:
             print 'xml or url error'
-            print e
             return lccnOpinion
         try: 
             LCCNLink = findLCCNLink(rdfgraph)
             lccnOpinion = getLCCNOpinion(LCCNLink)
-        except (noLCCNLink, noLCCNOpinion, urllib2.HTTPError) as e:
+        except:
             return lccnOpinion
     
     return lccnOpinion
